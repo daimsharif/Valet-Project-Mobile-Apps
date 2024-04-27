@@ -5,6 +5,9 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,25 +19,36 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        replaceFragment(new fragment_home());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.frag_home, R.id.frag_book, R.id.frag_profile)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
-//        Objects.requireNonNull(getSupportActionBar()).hide();
+        binding.navView.setOnItemSelectedListener( item -> {
+            switch(item.getItemId()){
+                case R.id.frag_home:
+                    replaceFragment(new fragment_home());
+                    break;
+                case R.id.frag_book:
+                    replaceFragment(new fragment_booking());
+                    break;
+                case R.id.frag_profile:
+                    replaceFragment(new fragment_profile());
+                    break;
+            }
+            return true;
+        });
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.commit();
     }
 
 }
