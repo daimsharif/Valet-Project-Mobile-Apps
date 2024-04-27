@@ -1,8 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AUSvalet" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.AUSvalet" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/red_500</item>
+        <item name="colorPrimaryVariant">@color/red_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/cream_200</item>
+        <item name="colorSecondaryVariant">@color/cream_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/red_500</item>
+        <!-- Customize your theme here. -->
     </style>
 
     <style name="Theme.AUSvalet" parent="Base.Theme.AUSvalet" />

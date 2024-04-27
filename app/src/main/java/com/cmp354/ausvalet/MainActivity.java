@@ -14,12 +14,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.cmp354.ausvalet.databinding.ActivityMainBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

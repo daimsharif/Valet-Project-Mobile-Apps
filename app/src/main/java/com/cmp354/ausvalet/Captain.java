@@ -1,5 +1,5 @@
 package com.cmp354.ausvalet;
 
-public class Captain {
+public class Captain extends User {
 
 }

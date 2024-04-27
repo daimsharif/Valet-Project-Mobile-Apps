@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity implements View.OnClickListener{
     EditText et_password,et_username;
     Button btn_login,btn_signup;
-    private FirebaseAuth mAuth;
+    static FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +38,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(et_password.getText().toString().equals(""))return;
-
         if(v.getId()==R.id.btn_login){
+            if(et_password.getText().toString().equals(""))return;
             mAuth.signInWithEmailAndPassword(et_username.getText().toString(),
                             et_password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -63,24 +62,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     });
 
         } else if (v.getId()==R.id.btn_signup) {
-            mAuth.createUserWithEmailAndPassword(et_username.getText().toString(), et_password.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(getApplicationContext(), "Create User With Email :success\nPlease login",Toast.LENGTH_SHORT).show();
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.d("Firebase", "createUserWithEmail:failure: " + task.getException().toString());
-                                Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
+            Toast.makeText(getApplicationContext(), "Clicked on the SignUp", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
+            startActivity(i);
         }
     }
 }
