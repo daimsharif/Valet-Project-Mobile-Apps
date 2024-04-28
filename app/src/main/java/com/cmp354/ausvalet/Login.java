@@ -27,6 +27,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         mAuth=FirebaseAuth.getInstance();
         et_password=findViewById(R.id.et_password);
         et_username=findViewById(R.id.et_username);

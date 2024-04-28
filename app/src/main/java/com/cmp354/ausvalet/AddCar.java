@@ -34,113 +34,128 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddCar extends AppCompatActivity implements View.OnClickListener{
 
-    EditText et_first;
-    EditText et_last;
-    EditText et_num;
-    EditText et_id;
-    EditText et_pswd;
+    EditText et_make;
+    EditText et_model;
+    EditText et_year;
+    EditText et_plate;
 
-    RadioGroup rg_userType;
-    RadioButton rb_customer;
-    RadioButton rb_captain;
+    RadioGroup rg_carType;
+    RadioButton rb_automatic;
+    RadioButton rb_manual;
 
-    Button btn_uploadID;
-    Button btn_next;
+    Button btn_uploadCarID;
+    Button btn_done;
 
     Uri imagePath;
 
+    String id;
+
     private final int GALLERY_REQ_CODE = 1000;
     private final String TAG = "SignUpActivity";
+
     static FirebaseFirestore db;
     static FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_add_car);
 
-        et_first = findViewById(R.id.et_first);
-        et_last = findViewById(R.id.et_last);
-        et_num = findViewById(R.id.et_number);
-        et_id = findViewById(R.id.et_id);
-        et_pswd = findViewById(R.id.et_pswd);
 
-        rg_userType = findViewById(R.id.rg_userType);
-        rb_customer = findViewById(R.id.rb_customer);
-        rb_captain = findViewById(R.id.rb_captain);
+        et_make = findViewById(R.id.et_make);
+        et_model = findViewById(R.id.et_model);
+        et_year = findViewById(R.id.et_year);
+        et_plate = findViewById(R.id.et_plate);
 
-        btn_uploadID = findViewById(R.id.btn_uploadID);
-        btn_next = findViewById(R.id.btn_next);
+        rg_carType = findViewById(R.id.rg_carType);
+        rb_automatic = findViewById(R.id.rb_automatic);
+        rb_manual = findViewById(R.id.rb_manual);
 
-        btn_uploadID.setOnClickListener(this);
-        btn_next.setOnClickListener(this);
+        btn_uploadCarID = findViewById(R.id.btn_uploadCarID);
+        btn_done = findViewById(R.id.btn_done);
 
-        db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
+        btn_uploadCarID.setOnClickListener(this);
+        btn_done.setOnClickListener(this);
 
+        db = SignUpActivity.db.getInstance();
+        storage = SignUpActivity.storage.getInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        id = intent.getStringExtra("username");
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_uploadID:
+            case R.id.btn_uploadCarID:
                 Intent iGallery = new Intent(Intent.ACTION_PICK);
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery, GALLERY_REQ_CODE);
                 break;
-            case R.id.btn_next:
-                //TODO: To add to the user Class
-                CollectionReference users = db.collection("users");
+            case R.id.btn_done:
+                //TODO: To add to the car Class
+                CollectionReference users = db.collection("cars");
 
-                Map<String, Object> user = new HashMap<>();
+                Map<String, Object> car = new HashMap<>();
 
-                String first = et_first.getText().toString();
-                String last = et_last.getText().toString();
-                String number = et_num.getText().toString();
-                String id = et_id.getText().toString();
-                String pswd = et_pswd.getText().toString();
+                String make = et_make.getText().toString();
+                String model = et_model.getText().toString();
+                String year = et_year.getText().toString();
+                String plate = et_plate.getText().toString();
 
                 //Validate First Name
-                if (!first.equals(""))
-                    user.put("first", first);
+                if (!make.equals(""))
+                    car.put("make", make);
                 else{
-                    Toast.makeText(getApplicationContext(), "Entire a valid First Name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Entire a valid Make Name", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 //Validate Last Name
-                if (!last.equals(""))
-                    user.put("last", last);
+                if (!model.equals(""))
+                    car.put("model", model);
                 else{
-                    Toast.makeText(getApplicationContext(), "Entire a valid Last Name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Entire a valid Model Name", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (!number.equals(""))
+                if (!year.equals(""))
                     //TODO: Implement Regex to validate the number
-                    user.put("number", number);
+                    car.put("year", year);
                 else{
-                    Toast.makeText(getApplicationContext(), "Entire a valid Phone Number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Entire a valid Year", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+
+                if (!plate.equals(""))
+                    //TODO: Implement Regex to validate Plate
+                    car.put("plate", plate);
+                else{
+                    Toast.makeText(getApplicationContext(), "Entire a valid Plate", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (!id.equals(""))
-                    //TODO: Implement Regex to validate AUS ID
-                    user.put("id", id);
+                    //TODO: Implement Regex to validate Plate
+                    car.put("id", id);
                 else{
-                    Toast.makeText(getApplicationContext(), "Entire a valid AUS ID", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Entire a valid ID", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(rb_captain.isChecked()){
-                    user.put("isCaptain", true);
+                if(rb_automatic.isChecked()){
+                    car.put("isAutomatic", true);
                 }
                 else{
-                    user.put("isCaptain", false);
+                    car.put("isAutomatic", false);
                 }
 
                 if (imagePath != null)
@@ -152,7 +167,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     StorageReference idRef = storageRef.child(id + ".jpeg");
 
                     // Create a reference to 'images/mountains.jpg'
-                    StorageReference idImagesRef = storageRef.child("aus_id/" + id + "_aus_id.jpeg");
+                    StorageReference idImagesRef = storageRef.child("car_id/" + id + "_car_id.jpeg");
 
                     // While the file names are the same, the references point to different files
                     idRef.getName().equals(idImagesRef.getName());    // true
@@ -188,41 +203,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
 
-                users.document(et_id.getText().toString()).set(user);
+                users.document(id).set(car);
 
-                Log.d(TAG, "User has been added to firebase");
+                Log.d(TAG, "Car has been added to firebase");
 
+                Log.d(TAG, "Adding Car is completed!");
 
-                Login.mAuth.createUserWithEmailAndPassword(id + "@aus.edu", pswd)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(getApplicationContext(), "Create User With Email : success\nPlease login",
-                                            Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = Login.mAuth.getCurrentUser();
-
-                                    if (rb_captain.isChecked()){
-                                        Intent i = new Intent(getApplicationContext(), CaptainDetails.class);
-                                        i.putExtra("username", id);
-                                        startActivity(i);
-                                    }
-                                    else{
-                                        Intent i = new Intent(getApplicationContext(), AddCar.class);
-                                        i.putExtra("username", id);
-                                        startActivity(i);
-                                    }
-
-
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.putExtra("username", id);
+                startActivity(i);
 
 
                 break;
