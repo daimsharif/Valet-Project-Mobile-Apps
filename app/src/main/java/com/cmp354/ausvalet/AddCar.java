@@ -164,7 +164,7 @@ public class AddCar extends AppCompatActivity implements View.OnClickListener{
                     StorageReference storageRef = storage.getReferenceFromUrl("gs://ausvalet.appspot.com");
 
                     // Create a reference to "mountains.jpg"
-                    StorageReference idRef = storageRef.child(id + ".jpeg");
+                    StorageReference idRef = storageRef.child(id + "_car_id.jpeg");
 
                     // Create a reference to 'images/mountains.jpg'
                     StorageReference idImagesRef = storageRef.child("car_id/" + id + "_car_id.jpeg");
