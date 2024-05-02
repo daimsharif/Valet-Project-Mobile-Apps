@@ -8,15 +8,25 @@ public class User {
     private String last;
     private String id;
     private String number;
-    private String password;
-    private Uri image;
 
-    public Uri getImage() {
-        return image;
+    private boolean isAvailable;
+
+    private boolean isCaptain;
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
-    public void setImage(Uri image) {
-        this.image = image;
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public boolean isCaptain() {
+        return isCaptain;
+    }
+
+    public void setCaptain(boolean captain) {
+        isCaptain = captain;
     }
 
     public String getFirst() {
@@ -51,11 +61,4 @@ public class User {
         this.number = number;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

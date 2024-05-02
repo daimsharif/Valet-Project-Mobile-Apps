@@ -143,6 +143,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     user.put("isCaptain", false);
                 }
 
+                user.put("isAvailable", false);
+
                 if (imagePath != null)
                 {
                     // Create a storage reference from our app

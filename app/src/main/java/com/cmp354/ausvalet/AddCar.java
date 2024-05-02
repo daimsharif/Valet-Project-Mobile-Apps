@@ -49,7 +49,7 @@ public class AddCar extends AppCompatActivity implements View.OnClickListener{
     String id;
 
     private final int GALLERY_REQ_CODE = 1000;
-    private final String TAG = "SignUpActivity";
+    private final String TAG = "AddCar";
 
     static FirebaseFirestore db;
     static FirebaseStorage storage;
@@ -207,6 +207,7 @@ public class AddCar extends AppCompatActivity implements View.OnClickListener{
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.putExtra("username", id);
+                i.putExtra("isCaptain", true);
                 startActivity(i);
 
 

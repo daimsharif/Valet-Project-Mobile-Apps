@@ -51,7 +51,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 Log.d("Firebase", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                                i.putExtra("username", user.getEmail());
+                                i.putExtra("id", user.getEmail().split("@")[0]);
+                                Log.d("LOGIN", user.getEmail().split("@")[0]);
                                 startActivity(i);
                             } else {
                                 // If sign in fails, display a message to the user.

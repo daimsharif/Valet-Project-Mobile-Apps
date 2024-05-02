@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +46,12 @@ public class fragment_profile extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    TextView tv_dispName;
+    TextView tv_dispID;
+    TextView tv_dispPhone;
+    TextView tv_dispEmail;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

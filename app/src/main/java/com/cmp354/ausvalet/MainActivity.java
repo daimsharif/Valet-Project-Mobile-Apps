@@ -1,5 +1,6 @@
 package com.cmp354.ausvalet;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,10 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
+    String id;
+    boolean isCaptain;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = getIntent();
+        id = i.getStringExtra("id");
+        isCaptain = i.getBooleanExtra("isCaptain",false);
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new fragment_home());

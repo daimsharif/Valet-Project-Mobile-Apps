@@ -6,10 +6,165 @@
     android:layout_height="match_parent"
     tools:context=".fragment_profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingStart="40dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="40dp">
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_profName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Name"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dispName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Jon Stewart"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_profID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="AUS ID"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dispID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="b00043433"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_profPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Phone"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="+971 034 343 3433"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_profEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Email"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dispEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="b00043433@aus.edu"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_profAvaliable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Avaliability"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/sw_avaliable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:checked="true"
+                android:text="Avaliable"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/btn_profCar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Modify Your Car" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/btn_capDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Modify Captain Details" />
+        </TableRow>
+    </TableLayout>
 </FrameLayout>
