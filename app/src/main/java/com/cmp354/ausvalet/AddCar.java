@@ -17,12 +17,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -74,7 +70,7 @@ public class AddCar extends AppCompatActivity implements View.OnClickListener{
         rb_manual = findViewById(R.id.rb_manual);
 
         btn_uploadCarID = findViewById(R.id.btn_uploadCarID);
-        btn_done = findViewById(R.id.btn_done);
+        btn_done = findViewById(R.id.btn_capDone);
 
         btn_uploadCarID.setOnClickListener(this);
         btn_done.setOnClickListener(this);
@@ -99,7 +95,7 @@ public class AddCar extends AppCompatActivity implements View.OnClickListener{
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery, GALLERY_REQ_CODE);
                 break;
-            case R.id.btn_done:
+            case R.id.btn_capDone:
                 //TODO: To add to the car Class
                 CollectionReference users = db.collection("cars");
 

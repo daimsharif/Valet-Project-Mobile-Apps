@@ -1,9 +1,488 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CaptainDetails">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="40dp"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="40dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_captainNotice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Welcome Captain! Add your details below"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_uploadDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Upload Driver's License"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_uploadDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:backgroundTint="@color/red_700"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Upload"
+                android:textColor="@color/cream_200" />
+        </TableRow>
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_selectTimings"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Select your Avaliable Timings"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textStyle="normal" />-->
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" >-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_monday"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp"-->
+<!--                android:text="Monday"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_m_sevenToEight"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="7:30-8:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_m_eightToNine"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="8:30-9:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_m_nineToTen"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="9:30-10:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_m_tenToEleven"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="10:30-11:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_m_elevenToTwelve"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="11:30-12:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_m_twelveToOne"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="12:30-13:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp">-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@android:color/darker_gray"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp" />-->
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_tuesday"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp"-->
+<!--                android:text="Tuesday"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_t_sevenToEight"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="7:30-8:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_t_eightToNine"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="8:30-9:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_t_nineToTen"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="9:30-10:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_t_tenToEleven"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="10:30-11:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_t_elevenToTwelve"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="11:30-12:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_t_twelveToOne"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="12:30-13:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp">-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@android:color/darker_gray"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp" />-->
+<!--        </TableRow>-->
+
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_wednesday"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp"-->
+<!--                android:text="Wednesday"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_w_sevenToEight"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="7:30-8:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_w_eightToNine"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="8:30-9:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_w_nineToTen"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="9:30-10:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_w_tenToEleven"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="10:30-11:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_w_elevenToTwelve"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="11:30-12:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_w_twelveToOne"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="12:30-13:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp">-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@android:color/darker_gray"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp" />-->
+<!--        </TableRow>-->
+
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_thursday"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp"-->
+<!--                android:text="Thursday"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_r_sevenToEight"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="7:30-8:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_r_eightToNine"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="8:30-9:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_r_nineToTen"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="9:30-10:30" />-->
+
+<!--        </TableRow>-->
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_r_tenToEleven"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="10:30-11:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_r_elevenToTwelve"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="11:30-12:30" />-->
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_r_twelveToOne"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0"-->
+<!--                android:buttonTint="@color/red_200"-->
+<!--                android:checked="false"-->
+<!--                android:text="12:30-13:30" />-->
+
+<!--        </TableRow>-->
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btn_capDone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/red_700"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="DONE"
+                android:textColor="@color/cream_200" />
+        </TableRow>
+
+
+
+
+    </TableLayout>
+</ScrollView>

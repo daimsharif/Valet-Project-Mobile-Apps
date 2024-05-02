@@ -209,7 +209,7 @@
             android:visibility="visible">
 
             <Button
-                android:id="@+id/btn_done"
+                android:id="@+id/btn_capDone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0dp"
