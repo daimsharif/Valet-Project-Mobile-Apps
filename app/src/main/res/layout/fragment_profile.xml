@@ -79,7 +79,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tv_dispPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -132,9 +132,13 @@
                 android:id="@+id/sw_avaliable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="0"
+                android:backgroundTint="@color/red_200"
+                android:buttonTint="@color/red_200"
                 android:checked="true"
-                android:text="Avaliable"
+                android:drawableTint="@color/red_200"
+                android:foregroundTint="@color/red_200"
                 android:textSize="16sp" />
         </TableRow>
 

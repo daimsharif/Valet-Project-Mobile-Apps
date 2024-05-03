@@ -57,6 +57,9 @@ public class CaptainDetails extends AppCompatActivity implements View.OnClickLis
         db = SignUpActivity.db.getInstance();
         storage = SignUpActivity.storage.getInstance();
 
+        Intent i = getIntent();
+        id = i.getStringExtra("username");
+
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.cmp354.ausvalet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.cmp354.ausvalet.databinding.ActivityMainBinding;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -23,8 +27,16 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
-    String id;
-    boolean isCaptain;
+    static String id;
+    static String first;
+    static String last;
+    static String number;
+    static boolean isAvailable;
+    static boolean isCaptain;
+
+    FirebaseFirestore db;
+
+
 
 
     @Override
@@ -32,9 +44,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent i = getIntent();
-        id = i.getStringExtra("id");
-        isCaptain = i.getBooleanExtra("isCaptain",false);
+        id = i.getStringExtra("username");
 
+        db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("users").document(id);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+                first = user.getFirst();
+                last = user.getLast();
+                number = user.getNumber();
+                isAvailable = user.isAvailable();
+                isCaptain = user.getCaptain();
+            }
+        });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

@@ -137,10 +137,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 if(rb_captain.isChecked()){
-                    user.put("isCaptain", true);
+                    user.put("captain", true);
                 }
                 else{
-                    user.put("isCaptain", false);
+                    user.put("captain", false);
                 }
 
                 user.put("isAvailable", false);

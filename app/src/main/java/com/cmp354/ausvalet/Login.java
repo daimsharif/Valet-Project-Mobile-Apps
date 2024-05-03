@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 Log.d("Firebase", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                                i.putExtra("id", user.getEmail().split("@")[0]);
+                                i.putExtra("username", user.getEmail().split("@")[0]);
                                 Log.d("LOGIN", user.getEmail().split("@")[0]);
                                 startActivity(i);
                             } else {

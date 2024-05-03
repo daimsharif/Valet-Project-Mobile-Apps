@@ -11,7 +11,7 @@ public class User {
 
     private boolean isAvailable;
 
-    private boolean isCaptain;
+    private boolean captain;
 
     public boolean isAvailable() {
         return isAvailable;
@@ -21,12 +21,12 @@ public class User {
         isAvailable = available;
     }
 
-    public boolean isCaptain() {
-        return isCaptain;
+    public boolean getCaptain() {
+        return captain;
     }
 
     public void setCaptain(boolean captain) {
-        isCaptain = captain;
+        this.captain = captain;
     }
 
     public String getFirst() {
