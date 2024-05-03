@@ -19,6 +19,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link fragment_profile#newInstance} factory method to
@@ -121,8 +124,6 @@ public class fragment_profile extends Fragment{
         tv_dispID.setText(id + "");
         tv_dispPhone.setText(number + "");
         tv_dispName.setText(first + " " + last);
-        Toast.makeText(getActivity().getApplicationContext(), "Pressing here!", Toast.LENGTH_SHORT).show();
-
 
         if (isCaptain == true){
             Toast.makeText(getActivity().getApplicationContext(), "He's a captain!", Toast.LENGTH_SHORT).show();
@@ -153,6 +154,32 @@ public class fragment_profile extends Fragment{
                 Intent i = new Intent(getActivity().getApplicationContext(), AddCar.class);
                 i.putExtra("username", id);
                 startActivity(i);
+            }
+        });
+
+        sw_available.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "Switch has been switched!", Toast.LENGTH_SHORT).show();
+
+                String documentId = id;
+                String collectionPath = "users";
+
+                DocumentReference docRef = FirebaseFirestore.getInstance()
+                        .collection(collectionPath)
+                        .document(documentId);
+
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("available", sw_available.isChecked());
+
+                docRef.update(updates)
+                        .addOnSuccessListener(aVoid -> {
+                            // Update successful
+                        })
+                        .addOnFailureListener(e -> {
+                            // Update failed
+                        });
+
             }
         });
 

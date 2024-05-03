@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 first = user.getFirst();
                 last = user.getLast();
                 number = user.getNumber();
-                isAvailable = user.isAvailable();
+                isAvailable = user.getAvailable();
                 isCaptain = user.getCaptain();
             }
         });

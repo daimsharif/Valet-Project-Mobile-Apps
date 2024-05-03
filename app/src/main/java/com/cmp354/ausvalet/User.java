@@ -9,16 +9,16 @@ public class User {
     private String id;
     private String number;
 
-    private boolean isAvailable;
+    private boolean available;
 
     private boolean captain;
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public boolean getAvailable() {
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public boolean getCaptain() {

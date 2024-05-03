@@ -143,7 +143,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     user.put("captain", false);
                 }
 
-                user.put("isAvailable", false);
+                user.put("available", false);
 
                 if (imagePath != null)
                 {
