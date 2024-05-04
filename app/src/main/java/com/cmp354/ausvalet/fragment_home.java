@@ -2,11 +2,18 @@ package com.cmp354.ausvalet;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +53,13 @@ public class fragment_home extends Fragment {
         return fragment;
     }
 
+    ArrayList<String> names =  new ArrayList<>();
+    ArrayList<String> ids =  new ArrayList<>();
+    ArrayList<String> points =  new ArrayList<>();
+
+    FirebaseFirestore db;
+    ListView listView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,4 +75,45 @@ public class fragment_home extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        listView = getView().findViewById(R.id.listview);
+        db = FirebaseFirestore.getInstance();
+
+//        db.collection("cities")
+//                .whereEqualTo("capital", true)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Toast.makeText(getApplicationContext(),
+//                                        document.getId() + " => " + document.toObject(City.class),
+//                                        Toast.LENGTH_SHORT).show();
+//                                //org code:
+//                                //Log.d("CMP354:", document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.d("CMP354:", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+
+
+//        CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
+//                getActivity().getApplicationContext(), names,ids,points);
+//
+//        listView.setAdapter(customBaseAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO: Transfer to detailed activity
+            }
+        });
+    }
+
+
+
 }

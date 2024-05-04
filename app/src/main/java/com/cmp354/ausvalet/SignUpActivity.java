@@ -144,6 +144,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 user.put("available", false);
+                user.put("points", 0);
 
                 if (imagePath != null)
                 {

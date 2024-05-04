@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     static String first;
     static String last;
     static String number;
+    static int points;
     static boolean isAvailable;
     static boolean isCaptain;
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 number = user.getNumber();
                 isAvailable = user.getAvailable();
                 isCaptain = user.getCaptain();
+                points = user.getPoints();
             }
         });
 

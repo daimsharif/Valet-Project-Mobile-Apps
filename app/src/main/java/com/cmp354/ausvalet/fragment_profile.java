@@ -14,9 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -64,7 +62,10 @@ public class fragment_profile extends Fragment{
     TextView tv_dispID;
     TextView tv_dispPhone;
     TextView tv_dispEmail;
-    TextView tv_profAvaliable;
+    TextView tv_dispPoints;
+    TextView tv_profAvailable;
+    TextView tv_profPoints;
+
 
     Button btn_profCar;
     Button btn_capDetails;
@@ -75,6 +76,7 @@ public class fragment_profile extends Fragment{
     String first;
     String last;
     String number;
+    int points;
     boolean isCaptain;
     boolean isAvailable;
 
@@ -106,7 +108,10 @@ public class fragment_profile extends Fragment{
         tv_dispID = getView().findViewById(R.id.tv_dispID);
         tv_dispPhone = getView().findViewById(R.id.tv_dispPhone);
         tv_dispName = getView().findViewById(R.id.tv_dispName);
-        tv_profAvaliable = getView().findViewById(R.id.tv_profAvaliable);
+        tv_dispPoints = getView().findViewById(R.id.tv_dispPoints);
+
+        tv_profAvailable = getView().findViewById(R.id.tv_profAvailable);
+        tv_profPoints = getView().findViewById(R.id.tv_profPoints);
 
         btn_capDetails = getView().findViewById(R.id.btn_capDetails);
         btn_profCar = getView().findViewById(R.id.btn_profCar);
@@ -117,6 +122,7 @@ public class fragment_profile extends Fragment{
         first = MainActivity.first;
         last = MainActivity.last;
         number = MainActivity.number;
+        points = MainActivity.points;
         isAvailable = MainActivity.isAvailable;
         isCaptain = MainActivity.isCaptain;
 
@@ -124,19 +130,23 @@ public class fragment_profile extends Fragment{
         tv_dispID.setText(id + "");
         tv_dispPhone.setText(number + "");
         tv_dispName.setText(first + " " + last);
+        tv_dispPoints.setText(points + "");
 
         if (isCaptain == true){
-            Toast.makeText(getActivity().getApplicationContext(), "He's a captain!", Toast.LENGTH_SHORT).show();
             btn_profCar.setVisibility(View.GONE);
             sw_available.setChecked(isAvailable);
             btn_capDetails.setVisibility(View.VISIBLE);
             sw_available.setVisibility(View.VISIBLE);
-            tv_profAvaliable.setVisibility(View.VISIBLE);
+            tv_profAvailable.setVisibility(View.VISIBLE);
+            tv_dispPoints.setVisibility(View.VISIBLE);
+            tv_profPoints.setVisibility(View.VISIBLE);
         }else{
             btn_profCar.setVisibility(View.VISIBLE);
             btn_capDetails.setVisibility(View.GONE);
             sw_available.setVisibility(View.GONE);
-            tv_profAvaliable.setVisibility(View.GONE);
+            tv_profAvailable.setVisibility(View.GONE);
+            tv_dispPoints.setVisibility(View.GONE);
+            tv_profPoints.setVisibility(View.GONE);
         }
 
         btn_capDetails.setOnClickListener(new View.OnClickListener() {

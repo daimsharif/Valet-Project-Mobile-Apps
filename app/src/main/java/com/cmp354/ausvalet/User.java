@@ -12,6 +12,15 @@ public class User {
     private boolean available;
 
     private boolean captain;
+    private int points;
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public boolean getAvailable() {
         return available;

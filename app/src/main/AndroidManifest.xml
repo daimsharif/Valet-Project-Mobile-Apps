@@ -13,6 +13,9 @@
         android:theme="@style/Theme.AUSvalet"
         tools:targetApi="31">
         <activity
+            android:name=".ItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".CaptainDetails"
             android:exported="false" />
         <activity
