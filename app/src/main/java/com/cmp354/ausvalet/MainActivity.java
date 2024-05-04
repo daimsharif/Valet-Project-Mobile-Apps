@@ -2,9 +2,13 @@ package com.cmp354.ausvalet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,8 +41,22 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
 
+    BottomNavigationView bottomNavigationView;
+    BottomNavigationItemView frag_home;
 
 
+    @Override
+    protected void onResumeFragments() {
+
+        super.onResumeFragments();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    //TODO: Hide Home for Captains (Captains can't book valets)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +81,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new fragment_home());
+
+        bottomNavigationView = findViewById(R.id.nav_view);
+        bottomNavigationView.setSelectedItemId(R.id.frag_profile);
+
+        frag_home = findViewById(R.id.frag_home);
+
+//        if (isCaptain == true){
+//            frag_home.setVisibility(View.VISIBLE);
+//        }
+//        else{
+//            frag_home.setVisibility(View.GONE);
+//        }
+
+        replaceFragment(new fragment_profile());
+
+
 
         binding.navView.setOnItemSelectedListener( item -> {
             switch(item.getItemId()){
@@ -81,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
     }
 
     private void replaceFragment(Fragment fragment){

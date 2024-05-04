@@ -1,5 +1,7 @@
 package com.cmp354.ausvalet;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -97,7 +99,6 @@ public class fragment_home extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Toast.makeText(getActivity().getApplicationContext(), "Gotten this user", Toast.LENGTH_SHORT).show();
                                 User user =   document.toObject(User.class);
                                 Log.d("Test", "Beginning of Test");
                                 Log.d("Test", "This is: " + user.getFirst() + " " + user.getLast());
@@ -110,7 +111,7 @@ public class fragment_home extends Fragment {
 
 
                             }
-
+                            //TODO: Fix applicaiton context returning null when spam clicking home fragment button
                             CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
                                     getActivity().getApplicationContext(), names, ids, points);
 
@@ -121,16 +122,15 @@ public class fragment_home extends Fragment {
                     }
                 });
 
-//        Log.d("Test", names.get(0));
-//        Log.d("Test", ids.get(0));
-//        Log.d("Test", points.get(0));
-
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TODO: Transfer to detailed activity
+                Intent intent = new Intent(getActivity().getApplicationContext(), BookCaptain.class);
+                intent.putExtra("username", ids.get(i));
+                startActivity(intent);
             }
         });
     }
