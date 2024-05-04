@@ -2,16 +2,24 @@ package com.cmp354.ausvalet;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -81,31 +89,44 @@ public class fragment_home extends Fragment {
         listView = getView().findViewById(R.id.listview);
         db = FirebaseFirestore.getInstance();
 
-//        db.collection("cities")
-//                .whereEqualTo("capital", true)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Toast.makeText(getApplicationContext(),
-//                                        document.getId() + " => " + document.toObject(City.class),
-//                                        Toast.LENGTH_SHORT).show();
-//                                //org code:
-//                                //Log.d("CMP354:", document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.d("CMP354:", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
+        db.collection("users")
+                .whereEqualTo("available", true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Gotten this user", Toast.LENGTH_SHORT).show();
+                                User user =   document.toObject(User.class);
+                                Log.d("Test", "Beginning of Test");
+                                Log.d("Test", "This is: " + user.getFirst() + " " + user.getLast());
+                                Log.d("Test", user.getId());
+                                Log.d("Test", user.getPoints() + "");
+                                names.add(user.getFirst() + " " + user.getLast());
+                                Log.d("Test", names.get(0));
+                                ids.add(user.getId());
+                                points.add(user.getPoints() + "");
 
 
-//        CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
-//                getActivity().getApplicationContext(), names,ids,points);
-//
-//        listView.setAdapter(customBaseAdapter);
+                            }
+
+                            CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
+                                    getActivity().getApplicationContext(), names, ids, points);
+
+                            listView.setAdapter(customBaseAdapter);
+                        } else {
+                            Log.d("HOME", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+//        Log.d("Test", names.get(0));
+//        Log.d("Test", ids.get(0));
+//        Log.d("Test", points.get(0));
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
