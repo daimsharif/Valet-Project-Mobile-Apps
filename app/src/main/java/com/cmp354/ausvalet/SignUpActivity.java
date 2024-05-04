@@ -72,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         rb_captain = findViewById(R.id.rb_captain);
 
         btn_uploadID = findViewById(R.id.btn_uploadID);
-        btn_next = findViewById(R.id.btn_next);
+        btn_next = findViewById(R.id.btn_book);
 
         btn_uploadID.setOnClickListener(this);
         btn_next.setOnClickListener(this);
@@ -91,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery, GALLERY_REQ_CODE);
                 break;
-            case R.id.btn_next:
+            case R.id.btn_book:
                 //TODO: To add to the user Class
                 CollectionReference users = db.collection("users");
 
