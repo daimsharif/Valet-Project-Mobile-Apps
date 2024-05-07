@@ -106,8 +106,10 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==R.id.btn_book)
+        if(v.getId()==R.id.btn_book){
+            Toast.makeText(this, "Booking your Captain... Please Wait", Toast.LENGTH_SHORT).show();
             book();
+        }
         else if(v.getId()==R.id.btn_cancel)
             cancel();
 

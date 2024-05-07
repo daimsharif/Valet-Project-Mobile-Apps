@@ -8,6 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +25,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -110,29 +115,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onLocationChanged(Location location) {
                 Toast.makeText(MapsActivity.this, "The location has changed", Toast.LENGTH_SHORT).show();
                 mMap.clear();
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-
-                mMap.addMarker(
-                        new MarkerOptions().position(latLng).title(latLng.toString()));
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition
-                        (new CameraPosition.Builder()
-                                /* Creates a builder for a camera position.*/
-                                .target(new LatLng(location.getLatitude(),
-                                        location.getLongitude()))
-                                .zoom(16.5f) //0 is the whole world
-                                .bearing(0) //north is 0
-                                .tilt(25) //camera angle facing earth
-                                .build()));
-                Log.d("CMP354---", latLng.toString());
-
 
                 String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(location.getLatitude(), location.getLongitude()));
 
                 // Add the hash and the lat/lng to the document. We will use the hash
                 // for queries and the lat/lng for distance comparisons.
                 Map<String, Object> updates = new HashMap<>();
-                updates.put("geohash", hash);
                 updates.put("lat", location.getLatitude());
                 updates.put("lng", location.getLongitude());
 
@@ -156,10 +144,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         FMap map = documentSnapshot.toObject(FMap.class);
-                        LatLng latLng = new LatLng(map.getLat(), map.getLng());
-                        //TODO: Add a different marker
-                        mMap.addMarker(
-                            new MarkerOptions().position(latLng).title(latLng.toString()));
+                        drawMarker(map.getLat(),map.getLng());
+
                     }
                 });
 
@@ -208,6 +194,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else
                 finish(); //no point continuing with the app
         }
+    }
+
+
+    public void drawMarker(double latitude, double longitude) {
+        Drawable circleDrawable = getResources().getDrawable(R.drawable.marker);
+        BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .title("Captain")
+                .icon(markerIcon)
+        );
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition
+                (new CameraPosition.Builder()
+                        /* Creates a builder for a camera position.*/
+                        .target(new LatLng(latitude,
+                                longitude))
+                        .zoom(16.5f) //0 is the whole world
+                        .bearing(0) //north is 0
+                        .tilt(25) //camera angle facing earth
+                        .build()));
+    }
+
+    private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     @Override

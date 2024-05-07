@@ -1,5 +1,6 @@
 package com.cmp354.ausvalet;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,8 +37,8 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    FirebaseFirestore db;
-    String id;
+    static FirebaseFirestore db;
+    static String id;
     String first;
     String last;
     String number;
@@ -45,14 +46,21 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
     boolean isCaptain;
     boolean isAvailable;
 
-    User customer;
+    //TODO: FOR DAIM, try to get the status for dropped
+    boolean isDropped = true;
+
+    static User customer;
     Request req;
 
     Car car;
 
-    TextView tv_requestNotice;
-    TextView tv_info;
-    Button btn_accept,btn_continue,btn_decline;
+    static TextView tv_requestNotice;
+    static TextView tv_info;
+    static Button btn_accept;
+    static Button btn_continue;
+    static Button btn_decline;
+
+    String parkingLocation;
 
 
     // TODO: Rename and change types of parameters
@@ -176,6 +184,7 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                                                     }
                                                 } else {
                                                     Log.d("daimtest", "Error getting car documents: ", task.getException());
+                                                    Log.d("daimtest", "Error getting car documents: ", task.getException());
                                                 }
                                             }
                                         });
@@ -211,6 +220,15 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
         }else{//btn_continue
 
             //TODO FOR ABDU
+            if(isDropped == true){
+                Intent i = new Intent(getActivity().getApplicationContext(), InstructActivity.class);
+                i.putExtra("iText" , "Drive to the " + req.getParkingLocation());
+                i.putExtra("btnText", "I have parked the car");
+                startActivity(i);
+
+                //TODO: Once
+            }
+
 
         }
 
@@ -249,7 +267,9 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                     }
                 });
     }
-    public void decline(){
+    public static void decline(){
+
+
         //TODO remove view
         db.collection("requests")
                 .whereEqualTo("captainId", id)//TODO change it to isCaptain
@@ -267,6 +287,45 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                                             public void onSuccess(Void unused) {
                                                 //TODO implement
                                                 Log.d("daim","request declined in captain fragment");
+                                                tv_requestNotice.setText("No current Requests :(");
+                                                tv_info.setVisibility(View.GONE);
+                                                btn_accept.setVisibility(View.GONE);
+                                                btn_decline.setVisibility(View.GONE);
+                                                btn_continue.setVisibility(View.GONE);
+
+
+                                            }
+                                        });
+
+
+                            }
+                        }
+
+                    }
+                });
+    }
+
+
+    public static void parked(){
+
+
+        //TODO remove view
+        db.collection("requests")
+                .whereEqualTo("captainId", id)//TODO change it to isCaptain
+                .whereEqualTo("customerId", customer.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference ref=db.collection("requests").document(document.getId());
+                                ref.update("status","parked")
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                //TODO implement
+                                                Log.d("daim","request parked in captain fragment");
                                                 tv_requestNotice.setText("No current Requests :(");
                                                 tv_info.setVisibility(View.GONE);
                                                 btn_accept.setVisibility(View.GONE);

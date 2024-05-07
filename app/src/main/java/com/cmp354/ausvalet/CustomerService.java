@@ -14,9 +14,12 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -109,6 +112,34 @@ public class CustomerService extends Service{
                             }else if(doc.get("status").equals("cancelled")){
                                 Log.d("daim","request cancelled");
                                 createStatusNotification("Request cancelled","Request cancelled by the customer.");
+                                stopForeground(true);
+                                stopSelf();
+
+                            }else if(doc.get("status").equals("parked")){
+                                Log.d("daim","Car is parked!");
+                                createStatusNotification("Car is parked","Your car is parked!");
+                                new CountDownTimer(2000, 1000) {
+                                    public void onFinish() {
+                                        //let 2sec finish
+                                    }
+
+                                    public void onTick(long millisUntilFinished) {
+                                        db.collection("requests").document(doc.getId())
+                                                .delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d("daim", "request successfully deleted!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w("daim", "Error deleting request", e);
+                                                    }
+                                                });
+                                    }
+                                }.start();
                                 stopForeground(true);
                                 stopSelf();
                             }
