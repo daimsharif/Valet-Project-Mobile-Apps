@@ -14,6 +14,29 @@ public class User {
     private boolean captain;
     private int points;
 
+    public User(String first, String last, String id, String number, boolean available, boolean captain, int points) {
+        this.first = first;
+        this.last = last;
+        this.id = id;
+        this.number = number;
+        this.available = available;
+        this.captain = captain;
+        this.points = points;
+    }
+
+    public User() {
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "first='" + first + '\'' +
+                ", last='" + last + '\'' +
+                ", id='" + id + '\'' +
+                ", captain=" + captain +
+                '}';
+    }
+
     public int getPoints() {
         return points;
     }

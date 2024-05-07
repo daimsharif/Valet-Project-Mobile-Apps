@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,7 @@ public class fragment_profile extends Fragment{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         tv_dispEmail = getView().findViewById(R.id.tv_dispEmail);
         tv_dispID = getView().findViewById(R.id.tv_dispID);
         tv_dispPhone = getView().findViewById(R.id.tv_dispPhone);
@@ -117,14 +119,22 @@ public class fragment_profile extends Fragment{
         btn_profCar = getView().findViewById(R.id.btn_profCar);
 
         sw_available = getView().findViewById(R.id.sw_avaliable);
+        Log.d("daim",getArguments().getString("id")+"in fragment activity");
+        id = getArguments().getString("id");
+        first =getArguments().getString("first");
+        last = getArguments().getString("last");
+        number = getArguments().getString("number");
+        points = getArguments().getInt("points");
+        isAvailable = getArguments().getBoolean("isAvailable");
+        isCaptain = getArguments().getBoolean("isCaptain");
 
-        id = MainActivity.id;
-        first = MainActivity.first;
-        last = MainActivity.last;
-        number = MainActivity.number;
-        points = MainActivity.points;
-        isAvailable = MainActivity.isAvailable;
-        isCaptain = MainActivity.isCaptain;
+//        id = MainActivity.id;
+//        first =MainActivity.first;
+//        last = MainActivity.last;
+//        number = MainActivity.number;
+//        points = MainActivity.points;
+//        isAvailable =MainActivity.isAvailable;
+//        isCaptain =MainActivity.isCaptain;
 
         tv_dispEmail.setText(id + "@aus.edu");
         tv_dispID.setText(id + "");

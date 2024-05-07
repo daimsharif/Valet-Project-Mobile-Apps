@@ -7,11 +7,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     static int points;
     static boolean isAvailable;
     static boolean isCaptain;
+    Bundle b;
 
     FirebaseFirestore db;
 
@@ -72,24 +76,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User user = documentSnapshot.toObject(User.class);
+//                id=user.getId();
                 first = user.getFirst();
                 last = user.getLast();
                 number = user.getNumber();
                 isAvailable = user.getAvailable();
                 isCaptain = user.getCaptain();
                 points = user.getPoints();
-            }
-        });
 
+                if(isCaptain){
+                    Intent i = new Intent(MainActivity.this, CaptainService.class);
+                    i.putExtra("captainId",id);
+                    ContextCompat.startForegroundService(MainActivity.this,i);
+                }
 
+                b=new Bundle();
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+                b.putString("id",id);
+                b.putString("first",first);
+                b.putString("last",last);
+                b.putString("number",number);
+                b.putInt("points",points);
+                b.putBoolean("isAvailable",isAvailable);
+                b.putBoolean("isCaptain",isCaptain);
+                Log.d("daim",b.getString("id")+"in main activity");
+//                System.out.println(b.getString("id")+"in main activity");
 
-        bottomNavigationView = findViewById(R.id.nav_view);
-        bottomNavigationView.setSelectedItemId(R.id.frag_profile);
+                binding = ActivityMainBinding.inflate(getLayoutInflater());
+                setContentView(binding.getRoot());
 
-        frag_home = findViewById(R.id.frag_home);
+                bottomNavigationView = findViewById(R.id.nav_view);
+                bottomNavigationView.setSelectedItemId(R.id.frag_profile);
+
+                frag_home = findViewById(R.id.frag_home);
 
 //        if (isCaptain == true){
 //            frag_home.setVisibility(View.VISIBLE);
@@ -97,25 +116,46 @@ public class MainActivity extends AppCompatActivity {
 //        else{
 //            frag_home.setVisibility(View.GONE);
 //        }
+                Fragment f=new fragment_profile();
+                f.setArguments(b);
+                replaceFragment(f);
 
-        replaceFragment(new fragment_profile());
 
 
+                binding.navView.setOnItemSelectedListener( item -> {
+                    switch(item.getItemId()){
+                        case R.id.frag_home:
+                            Fragment f1=new fragment_home();
+                            f1.setArguments(b);
+                            replaceFragment(f1);
+                            break;
+                        case R.id.frag_book:
+                            Fragment f2=new fragment_booking();
+                            f2.setArguments(b);
+                            replaceFragment(f2);
+                            break;
+                        case R.id.frag_profile:
+                            Fragment f3=new fragment_profile();
+                            f3.setArguments(b);
+                            replaceFragment(f3);
+                            break;
+                    }
+                    return true;
+                });
 
-        binding.navView.setOnItemSelectedListener( item -> {
-            switch(item.getItemId()){
-                case R.id.frag_home:
-                    replaceFragment(new fragment_home());
-                    break;
-                case R.id.frag_book:
-                    replaceFragment(new fragment_booking());
-                    break;
-                case R.id.frag_profile:
-                    replaceFragment(new fragment_profile());
-                    break;
             }
-            return true;
         });
+        docRef.get().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("daim","failed");
+            }
+        });
+
+
+
+
+
 
     }
 

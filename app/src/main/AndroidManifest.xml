@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +19,16 @@
         android:theme="@style/Theme.AUSvalet"
         tools:targetApi="31">
 
+        <service
+            android:name=".CustomerService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="dataSync"></service>
+        <service
+            android:name=".CaptainService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="dataSync"></service>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -40,6 +53,9 @@
             android:exported="false" />
         <activity
             android:name=".ItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Booking"
             android:exported="false" />
         <activity
             android:name=".CaptainDetails"

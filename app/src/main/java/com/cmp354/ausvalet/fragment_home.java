@@ -128,8 +128,10 @@ public class fragment_home extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TODO: Transfer to detailed activity
+
                 Intent intent = new Intent(getActivity().getApplicationContext(), BookCaptain.class);
-                intent.putExtra("username", ids.get(i));
+                intent.putExtra("captainId", ids.get(i));
+                intent.putExtra("customerId", getArguments().getString("id"));
                 startActivity(intent);
             }
         });

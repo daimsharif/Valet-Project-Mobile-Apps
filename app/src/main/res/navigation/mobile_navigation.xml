@@ -15,7 +15,7 @@
         android:id="@+id/frag_book"
         android:name="com.cmp354.ausvalet.fragment_booking"
         android:label="Booking"
-        tools:layout="@layout/fragment_booking" />
+        tools:layout="@layout/fragment_mybookings" />
     <fragment
         android:id="@+id/frag_profile"
         android:name="com.cmp354.ausvalet.fragment_profile"
