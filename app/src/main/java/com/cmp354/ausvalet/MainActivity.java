@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    //TODO: Hide Home for Captains (Captains can't book valets)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,11 +127,6 @@ public class MainActivity extends AppCompatActivity {
                             Fragment f1=new fragment_home();
                             f1.setArguments(b);
                             replaceFragment(f1);
-                            break;
-                        case R.id.frag_book:
-                            Fragment f2=new fragment_booking();
-                            f2.setArguments(b);
-                            replaceFragment(f2);
                             break;
                         case R.id.frag_profile:
                             Fragment f3=new fragment_profile();

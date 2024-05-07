@@ -18,17 +18,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AUSvalet"
         tools:targetApi="31">
+        <activity
+            android:name=".InstructActivity"
+            android:exported="false" />
 
         <service
             android:name=".CustomerService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="dataSync"></service>
+            android:foregroundServiceType="dataSync" />
         <service
             android:name=".CaptainService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="dataSync"></service>
+            android:foregroundServiceType="dataSync" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

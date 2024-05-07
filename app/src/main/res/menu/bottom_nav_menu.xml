@@ -7,11 +7,6 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/frag_book"
-        android:icon="@drawable/baseline_car_rental_24"
-        android:title="My Bookings" />
-
-    <item
         android:id="@+id/frag_profile"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="Profile" />
