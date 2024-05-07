@@ -83,18 +83,18 @@ public class CaptainService extends Service {
                             if (doc.get("status").equals("requested")) {
                                 Log.d("daim","request found");
                                 createStatusNotification("You Have been Booked..","Open the app to Accept or Reject");
-                                new CountDownTimer(5000,1000){
-
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        Log.d("daim","count down finished");
-                                    }
-                                };
+//                                new CountDownTimer(5000,1000){
+//
+//                                    @Override
+//                                    public void onTick(long millisUntilFinished) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onFinish() {
+//                                        Log.d("daim","count down finished");
+//                                    }
+//                                };
                                 stopForeground(true);
                                 stopSelf();
                             }

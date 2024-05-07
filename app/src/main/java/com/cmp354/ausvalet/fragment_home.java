@@ -1,5 +1,8 @@
 package com.cmp354.ausvalet;
 
+import static com.cmp354.ausvalet.MainActivity.id;
+import static com.cmp354.ausvalet.MainActivity.isCaptain;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -70,6 +76,8 @@ public class fragment_home extends Fragment {
     FirebaseFirestore db;
     ListView listView;
 
+    TextView tv_cText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,38 +97,71 @@ public class fragment_home extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         listView = getView().findViewById(R.id.listview);
+        tv_cText = getView().findViewById(R.id.tv_cText);
         db = FirebaseFirestore.getInstance();
 
-        db.collection("users")
-                .whereEqualTo("available", true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                User user =   document.toObject(User.class);
-                                Log.d("Test", "Beginning of Test");
-                                Log.d("Test", "This is: " + user.getFirst() + " " + user.getLast());
-                                Log.d("Test", user.getId());
-                                Log.d("Test", user.getPoints() + "");
-                                names.add(user.getFirst() + " " + user.getLast());
-                                Log.d("Test", names.get(0));
-                                ids.add(user.getId());
-                                points.add(user.getPoints() + "");
+        if(isCaptain == false){
+            db.collection("users")
+                    .whereEqualTo("available", true)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    User user =   document.toObject(User.class);
+                                    Log.d("Test", "Beginning of Test");
+                                    Log.d("Test", "This is: " + user.getFirst() + " " + user.getLast());
+                                    Log.d("Test", user.getId());
+                                    Log.d("Test", user.getPoints() + "");
+                                    names.add(user.getFirst() + " " + user.getLast());
+                                    Log.d("Test", names.get(0));
+                                    ids.add(user.getId());
+                                    points.add(user.getPoints() + "");
 
+
+                                }
+                                //TODO: Fix applicaiton context returning null when spam clicking home fragment button
+                                CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
+                                        getActivity().getApplicationContext(), names, ids, points);
+
+                                listView.setAdapter(customBaseAdapter);
+                            } else {
+                                Log.d("HOME", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+        else{
+            listView.setVisibility(View.GONE);
+            tv_cText.setVisibility(View.VISIBLE);
+
+            db.collection("requests")
+                    .whereEqualTo("captainId", id)
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot value,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w("daim", "Listen failed.", e);
+                                return;
+                            }
+                            for (QueryDocumentSnapshot doc : value) {
+                                Log.d("daim",doc.toString());
+                                if (doc.get("status").equals("requested")) {
+                                    Toast.makeText(getActivity().getApplicationContext(), "Someone Requested you", Toast.LENGTH_SHORT).show();
+                                    
+                                    //TODO: Add a request
+
+                                }
 
                             }
-                            //TODO: Fix applicaiton context returning null when spam clicking home fragment button
-                            CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
-                                    getActivity().getApplicationContext(), names, ids, points);
-
-                            listView.setAdapter(customBaseAdapter);
-                        } else {
-                            Log.d("HOME", "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+
+        }
+
+
 
 
 

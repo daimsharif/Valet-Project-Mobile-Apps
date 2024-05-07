@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".fragment_home">
 
+    <TextView
+        android:id="@+id/tv_cText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="You don't have any requests"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
     </ListView>
 </FrameLayout>

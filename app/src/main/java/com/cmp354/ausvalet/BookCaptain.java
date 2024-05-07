@@ -1,9 +1,8 @@
 package com.cmp354.ausvalet;
 
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
@@ -15,16 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -46,9 +42,11 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
     String driver_id;
 
     Button btn_book;
-    Button btn_map;
+    Button btn_cancel;
 
     String captainId,customerId;
+
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +66,8 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
         btn_book.setOnClickListener(this);
 
-        btn_map = findViewById(R.id.btn_map);
-        btn_map.setOnClickListener(this);
+        btn_cancel = findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(this);
 
         spinner_dropoff = findViewById(R.id.spinner_dropoff);
         spinner_parking = findViewById(R.id.spinner_parking);
@@ -96,6 +94,8 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
         spinner_parking.setAdapter(parking_adapter);
 
+        db = FirebaseFirestore.getInstance();
+
 
 
 
@@ -105,7 +105,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
 
         db.collection("users")
@@ -135,6 +135,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                                                             i.putExtra("customerId",customerId);
                                                             i.putExtra("captainId",captainId);
                                                             ContextCompat.startForegroundService(BookCaptain.this,i);
+                                                            btn_book.setVisibility(View.GONE);
 
                                                         }
                                                     });
@@ -157,10 +158,59 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                         });
 
         switch (v.getId()){
-            case R.id.btn_map:
-                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                i.putExtra("driver", driver_id);
-                startActivity(i);
+            case R.id.btn_cancel:
+                db = FirebaseFirestore.getInstance();
+
+
+                db.collection("users")
+                        .whereEqualTo("captain", true)//TODO change it to isCaptain
+                        .whereEqualTo("id", captainId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        User captain = document.toObject(User.class);
+                                        Log.d("daim",captain.toString());
+                                        if (captain.getAvailable()) {
+                                            Map<String, Object> req = new HashMap<>();
+                                            req.put("captainId", captain.getId());
+                                            req.put("customerId", customerId);
+                                            req.put("status", "cancelled");
+                                            db.collection("requests")
+                                                    .add(req)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+                                                            Log.d("daim", " cancel request sent to captain");
+                                                            btn_book.setVisibility(View.VISIBLE);
+                                                            btn_cancel.setVisibility(View.GONE);
+
+
+
+                                                        }
+                                                    });
+                                        } else {
+                                            //alert dialog to say sorry
+                                            AlertDialog.Builder dialog = new AlertDialog.Builder(BookCaptain.this);
+                                            dialog.setTitle( "Sorry :(" )
+                                                    .setMessage("The captain is no longer available.")
+                                                    .setPositiveButton("Ok", null).show();
+                                        }
+                                    }
+
+
+
+
+                                } else {
+                                    Log.d("HOME", "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+
         }
 
     }
