@@ -10,9 +10,13 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -79,24 +83,36 @@ public class CaptainService extends Service {
                             return;
                         }
                         for (QueryDocumentSnapshot doc : value) {
-                            Log.d("daim",doc.toString());
-                            if (doc.get("status").equals("requested")) {
+                            if (doc.get("status").equals("cancelled")) {
+                                new CountDownTimer(2000, 1000) {
+                                    public void onFinish() {
+                                        //let 2sec finish
+                                    }
+
+                                    public void onTick(long millisUntilFinished) {
+                                        db.collection("requests").document(doc.getId())
+                                                .delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d("daim", "request successfully deleted!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w("daim", "Error deleting request", e);
+                                                    }
+                                                });
+                                    }
+                                }.start();
+                                createStatusNotification("Cancelled Booking","The customer cancelled the booking");
+
+
+                            }else if(doc.get("status").equals("requested")){
                                 Log.d("daim","request found");
                                 createStatusNotification("You Have been Booked..","Open the app to Accept or Reject");
-//                                new CountDownTimer(5000,1000){
-//
-//                                    @Override
-//                                    public void onTick(long millisUntilFinished) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onFinish() {
-//                                        Log.d("daim","count down finished");
-//                                    }
-//                                };
-                                stopForeground(true);
-                                stopSelf();
+
                             }
 
                         }
@@ -123,7 +139,7 @@ public class CaptainService extends Service {
         // create the variables for the notification
         int icon = R.drawable.ic_launcher_background;
         CharSequence tickerText = title;
-        CharSequence contentTitle = getText(R.string.app_name);
+        CharSequence contentTitle = title;
         CharSequence contentText = text;
         NotificationChannel notificationChannel =
                 new NotificationChannel("22", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
@@ -157,7 +173,7 @@ public class CaptainService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d("CMP354", "Captain Service destroyed, and timer stopped !");
+        Log.d("daim", "Captain Service destroyed");
 
     }
 }

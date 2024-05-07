@@ -29,12 +29,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "first='" + first + '\'' +
-                ", last='" + last + '\'' +
-                ", id='" + id + '\'' +
-                ", captain=" + captain +
-                '}';
+        return "\nName="+first+" " +last +"\nId="+id+"\nNumber= "+number+"\n";
     }
 
     public int getPoints() {

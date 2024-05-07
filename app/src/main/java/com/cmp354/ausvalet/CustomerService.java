@@ -97,6 +97,7 @@ public class CustomerService extends Service{
                             if (doc.get("status").equals("declined")) {
                                 Log.d("daim","request declined");
                                 createStatusNotification("Request Declined","The captain declined your booking.");
+                                //TODO hamdle declined
                                 stopForeground(true);
                                 stopSelf();
 
@@ -105,9 +106,9 @@ public class CustomerService extends Service{
                                 createStatusNotification("Request Accepted","The captain accepted your booking.");
                                 stopForeground(true);
                                 stopSelf();
-                            }else if(doc.get("status").equals("timeout")){
-                                Log.d("daim","request timeout");
-                                createStatusNotification("Request Timeout","Request cancelled due to captain's inactivity.");
+                            }else if(doc.get("status").equals("cancelled")){
+                                Log.d("daim","request cancelled");
+                                createStatusNotification("Request cancelled","Request cancelled by the customer.");
                                 stopForeground(true);
                                 stopSelf();
                             }
@@ -116,19 +117,19 @@ public class CustomerService extends Service{
                     }
                 });
 
-        new CountDownTimer(5000,1000){
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                System.out.println("ticking..");
-            }
-
-            @Override
-            public void onFinish() {
-                System.out.println("done ticking..");
-            }
-        };
-        System.out.println("Am i executed later..");
+//        new CountDownTimer(5000,1000){
+//
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                System.out.println("ticking..");
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                System.out.println("done ticking..");
+//            }
+//        };
+//        System.out.println("Am i executed later..");
 
 
 

@@ -105,6 +105,20 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
+        if(v.getId()==R.id.btn_book)
+            book();
+        else if(v.getId()==R.id.btn_cancel)
+            cancel();
+
+
+
+
+
+    }
+
+    public void book(){
+        Log.d("daim","book btn pressed");
         db = FirebaseFirestore.getInstance();
 
 
@@ -113,106 +127,93 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                 .whereEqualTo("id", captainId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        User captain = document.toObject(User.class);
-                                        Log.d("daim",captain.toString());
-                                        if (captain.getAvailable()) {
-                                            Map<String, Object> req = new HashMap<>();
-                                            req.put("captainId", captain.getId());
-                                            req.put("customerId", customerId);
-                                            req.put("status", "requested");
-                                            db.collection("requests")
-                                                    .add(req)
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                        @Override
-                                                        public void onSuccess(DocumentReference documentReference) {
-                                                            Log.d("daim", "request sent to captain");
-                                                            Intent i = new Intent(BookCaptain.this, CustomerService.class);
-                                                            i.putExtra("customerId",customerId);
-                                                            i.putExtra("captainId",captainId);
-                                                            ContextCompat.startForegroundService(BookCaptain.this,i);
-                                                            btn_book.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                User captain = document.toObject(User.class);
+                                Log.d("daim",captain.toString());
+                                if (captain.getAvailable()) {
+                                    Map<String, Object> req = new HashMap<>();
+                                    req.put("captainId", captain.getId());
+                                    req.put("customerId", customerId);
+                                    req.put("status", "requested");
+                                    req.put("isDropped",false);
+                                    req.put("dropOffLocation",spinner_dropoff.getSelectedItem().toString());
+                                    req.put("parkingLocation",spinner_parking.getSelectedItem().toString());
 
-                                                        }
-                                                    });
-                                        } else {
-                                            //alert dialog to say sorry
-                                            AlertDialog.Builder dialog = new AlertDialog.Builder(BookCaptain.this);
-                                            dialog.setTitle( "Sorry :(" )
-                                                    .setMessage("The captain is no longer available.")
-                                                    .setPositiveButton("Ok", null).show();
-                                        }
-                                        }
+                                    db.collection("requests")
+                                            .add(req)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Log.d("daim", "request sent to captain");
+                                                    Intent i = new Intent(BookCaptain.this, CustomerService.class);
+                                                    i.putExtra("customerId",customerId);
+                                                    i.putExtra("captainId",captainId);
+                                                    ContextCompat.startForegroundService(BookCaptain.this,i);
+                                                    btn_book.setVisibility(View.GONE);
+                                                    //make captain not available
+                                                    DocumentReference ref=db.collection("users").document(document.getId());
+                                                    ref.update("available",false)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    Log.d("daim","captain is unavailable");
+                                                                }
+                                                            });
 
 
-
-
+                                                }
+                                            });
                                 } else {
-                                    Log.d("HOME", "Error getting documents: ", task.getException());
+                                    //alert dialog to say sorry
+                                    AlertDialog.Builder dialog = new AlertDialog.Builder(BookCaptain.this);
+                                    dialog.setTitle( "Sorry :(" )
+                                            .setMessage("The captain is no longer available.")
+                                            .setPositiveButton("Ok", null).show();
                                 }
                             }
-                        });
-
-        switch (v.getId()){
-            case R.id.btn_cancel:
-                db = FirebaseFirestore.getInstance();
-
-
-                db.collection("users")
-                        .whereEqualTo("captain", true)//TODO change it to isCaptain
-                        .whereEqualTo("id", captainId)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        User captain = document.toObject(User.class);
-                                        Log.d("daim",captain.toString());
-                                        if (captain.getAvailable()) {
-                                            Map<String, Object> req = new HashMap<>();
-                                            req.put("captainId", captain.getId());
-                                            req.put("customerId", customerId);
-                                            req.put("status", "cancelled");
-                                            db.collection("requests")
-                                                    .add(req)
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                        @Override
-                                                        public void onSuccess(DocumentReference documentReference) {
-                                                            Log.d("daim", " cancel request sent to captain");
-                                                            btn_book.setVisibility(View.VISIBLE);
-                                                            btn_cancel.setVisibility(View.GONE);
-
-
-
-                                                        }
-                                                    });
-                                        } else {
-                                            //alert dialog to say sorry
-                                            AlertDialog.Builder dialog = new AlertDialog.Builder(BookCaptain.this);
-                                            dialog.setTitle( "Sorry :(" )
-                                                    .setMessage("The captain is no longer available.")
-                                                    .setPositiveButton("Ok", null).show();
-                                        }
-                                    }
 
 
 
 
-                                } else {
-                                    Log.d("HOME", "Error getting documents: ", task.getException());
-                                }
+                        } else {
+                            Log.d("HOME", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void cancel(){
+        Log.d("daim","cancel btn pressed");
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("requests")
+                .whereEqualTo("captainId", captainId)//TODO change it to isCaptain
+                .whereEqualTo("customerId", customerId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference ref=db.collection("requests").document(document.getId());
+                                ref.update("status","cancelled")
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                //TODO implement
+                                            }
+                                        });
+
+
                             }
-                        });
+                        }
 
-
-        }
-
+                    }
+                });
     }
 
 

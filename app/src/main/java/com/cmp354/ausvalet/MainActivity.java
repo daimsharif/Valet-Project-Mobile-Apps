@@ -124,7 +124,12 @@ public class MainActivity extends AppCompatActivity {
                 binding.navView.setOnItemSelectedListener( item -> {
                     switch(item.getItemId()){
                         case R.id.frag_home:
-                            Fragment f1=new fragment_home();
+                            Fragment f1;
+                            if(!isCaptain)
+                                f1=new fragment_home();
+                            else
+                                f1=new fragment_captain_home();
+
                             f1.setArguments(b);
                             replaceFragment(f1);
                             break;

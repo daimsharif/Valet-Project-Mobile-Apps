@@ -3,6 +3,7 @@ package com.cmp354.ausvalet;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -15,7 +16,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -125,8 +129,30 @@ public class fragment_profile extends Fragment{
         last = getArguments().getString("last");
         number = getArguments().getString("number");
         points = getArguments().getInt("points");
-        isAvailable = getArguments().getBoolean("isAvailable");
         isCaptain = getArguments().getBoolean("isCaptain");
+        isAvailable=getArguments().getBoolean("isAvailable");
+//        db=FirebaseFirestore.getInstance();
+//        DocumentReference docRef = db.collection("users").document(id);
+//
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    Log.d("daim", "found document " + document.getData());
+//                    if (document.exists()) {
+//                        User u= document.toObject(User.class);
+//                        isAvailable=u.getAvailable();
+//                        Log.d("daim", "DocumentSnapshot data: " + document.getData());
+//                    } else {
+//                        Log.d("daim", "No such document");
+//                    }
+//                } else {
+//                    Log.d("daim", "get failed with ", task.getException());
+//                }
+//            }
+//        });
+
 
 //        id = MainActivity.id;
 //        first =MainActivity.first;
