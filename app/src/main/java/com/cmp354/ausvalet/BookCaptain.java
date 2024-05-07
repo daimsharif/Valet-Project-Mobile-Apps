@@ -25,9 +25,11 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
     ArrayList<String> parkingLocations = new ArrayList<String>();
 
 
-
+    String driver_id;
 
     Button btn_book;
+    Button btn_map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_book_captain);
 
         Intent i = getIntent();
+        driver_id = i.getStringExtra("username");
         Toast.makeText(getApplicationContext(), i.getStringExtra("username"), Toast.LENGTH_SHORT).show();
 
         spinner_dropoff = findViewById(R.id.spinner_dropoff);
@@ -43,6 +46,9 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
         btn_book = findViewById(R.id.btn_book);
 
         btn_book.setOnClickListener(this);
+
+        btn_map = findViewById(R.id.btn_map);
+        btn_map.setOnClickListener(this);
 
         spinner_dropoff = findViewById(R.id.spinner_dropoff);
         spinner_parking = findViewById(R.id.spinner_parking);
@@ -78,6 +84,13 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.btn_map:
+                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                i.putExtra("driver", driver_id);
+                startActivity(i);
+        }
 
     }
 }
