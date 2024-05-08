@@ -149,7 +149,25 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                         }
                         for (QueryDocumentSnapshot doc : value) {
 //                            Log.d("daim",doc.toString());
-                            if (doc.get("status").equals("requested")) {
+                            if(doc.get("status").equals("cancelled")){
+                                tv_requestNotice.setText("No current Requests :(");
+                                tv_info.setText("");
+                                tv_info.setVisibility(View.GONE);
+                                btn_accept.setVisibility(View.GONE);
+                                btn_decline.setVisibility(View.GONE);
+                                btn_continue.setVisibility(View.GONE);
+
+//                                DocumentReference ref=db.collection("users").document(id);
+//                                ref.update("available",true)
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void unused) {
+//                                                Log.d("daim","captain is available");
+//                                            }
+//                                        });
+
+
+                            }else if (doc.get("status").equals("requested")) {
                                 //display and make buttons available
                                 req=doc.toObject(Request.class);
                                 //TODO display
@@ -164,33 +182,37 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                                                 if (task.isSuccessful()) {
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                                         customer=document.toObject(User.class);
-                                                        String str=tv_info.getText().toString()+customer.toString()+req.toString();
-                                                        tv_info.setText(str);
+                                                        db.collection("cars")
+                                                                .whereEqualTo("id", req.getCustomerId())
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                tv_info.setText("");
+
+                                                                                car=document.toObject(Car.class);
+                                                                                String str="Booking information:\n\n"+customer+req.toString()+car.toString();
+                                                                                tv_info.setText(str);
+                                                                            }
+                                                                        } else {
+                                                                            Log.d("daimtest", "Error getting car documents: ", task.getException());
+                                                                            Log.d("daimtest", "Error getting car documents: ", task.getException());
+                                                                        }
+                                                                    }
+                                                                });
+
+
+
                                                     }
-                                                } else {
+                                                }else {
                                                     Log.d("daimtest", "Error getting user documents: ", task.getException());
                                                 }
                                             }
                                         });
 
-                                db.collection("cars")
-                                        .whereEqualTo("id", req.getCustomerId())
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        car=document.toObject(Car.class);
-                                                        String str=tv_info.getText().toString()+car.toString();
-                                                        tv_info.setText(str);
-                                                    }
-                                                } else {
-                                                    Log.d("daimtest", "Error getting car documents: ", task.getException());
-                                                    Log.d("daimtest", "Error getting car documents: ", task.getException());
-                                                }
-                                            }
-                                        });
+
 
 
 
@@ -203,9 +225,16 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
 //                                btn_continue.setVisibility(View.VISIBLE);
 
 
+                            }else if (doc.get("isDropped").equals(true)) {
+                                Log.d("daim","car dropped");
+                                isDropped=true;
 
-
-
+                            } else if (doc.get("status").equals("accepted")) {
+//                                tv_info.setVisibility(View.GONE);
+//                                tv_info.setText("");
+                                btn_accept.setVisibility(View.GONE);
+                                btn_decline.setVisibility(View.GONE);
+                                btn_continue.setVisibility(View.VISIBLE);
 
                             }
 
@@ -213,31 +242,6 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                     }
                 });
 
-        db.collection("requests")
-                .whereEqualTo("captainId", id)
-//                .whereEqualTo("customerId",customer.getId())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                         @Override
-                                         public void onEvent(@Nullable QuerySnapshot value,
-                                                             @Nullable FirebaseFirestoreException e) {
-                                             if (e != null) {
-                                                 Log.w("daim", "Listen failed.", e);
-                                                 return;
-                                             }
-                                             for (QueryDocumentSnapshot doc : value) {
-
-                                                 Log.d("daim",doc.toString());
-                                                 if (doc.get("isDropped").equals(true)) {
-                                                     Log.d("daim","car dropped");
-                                                     isDropped=true;
-
-
-                                                 }
-                                             }
-
-                                         }
-                                     }
-                );
 
     }
 
@@ -321,6 +325,7 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                                                 Log.d("daim","request declined in captain fragment");
                                                 tv_requestNotice.setText("No current Requests :(");
                                                 tv_info.setVisibility(View.GONE);
+                                                tv_info.setText("");
                                                 btn_accept.setVisibility(View.GONE);
                                                 btn_decline.setVisibility(View.GONE);
                                                 btn_continue.setVisibility(View.GONE);

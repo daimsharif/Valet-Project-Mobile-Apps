@@ -2,6 +2,7 @@ package com.cmp354.ausvalet;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -9,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,7 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -97,12 +101,56 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
         db = FirebaseFirestore.getInstance();
 
+        db.collection("requests")
+                .whereEqualTo("captainId", captainId)
+                .whereEqualTo("customerId",customerId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("daim", "Listen failed.", e);
+                            return;
+                        }
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.d("daim",doc.toString());
+                            if (doc.get("status").equals("declined")) {
+                                Log.d("daim","request declined");
+//                                createStatusNotification("Request Declined","The captain declined your booking.");
+                                //TODO hamdle declined
+
+                                MainActivity.canBook=true;
+
+                                db.collection("requests").document(doc.getId())
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("daim", "request successfully deleted!");
+
+                                            }
+                                        });
+                                Log.d("daim","killing it again");
+                                finish();
 
 
+                            }
+                        }
 
 
+                    }
 
+                });
     }
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -215,6 +263,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                                             public void onSuccess(Void unused) {
                                                 //TODO implement
                                                 MainActivity.canBook=true;
+
                                             }
                                         });
 
@@ -224,6 +273,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
 
                     }
                 });
+        finish();
     }
 
 

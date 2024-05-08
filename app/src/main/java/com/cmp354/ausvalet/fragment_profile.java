@@ -68,14 +68,14 @@ public class fragment_profile extends Fragment{
     TextView tv_dispPhone;
     TextView tv_dispEmail;
     TextView tv_dispPoints;
-    TextView tv_profAvailable;
+//    TextView tv_profAvailable;
     TextView tv_profPoints;
 
 
     Button btn_profCar;
     Button btn_capDetails;
 
-    Switch sw_available;
+//    Switch sw_available;
 
     String id;
     String first;
@@ -116,13 +116,13 @@ public class fragment_profile extends Fragment{
         tv_dispName = getView().findViewById(R.id.tv_dispName);
         tv_dispPoints = getView().findViewById(R.id.tv_dispPoints);
 
-        tv_profAvailable = getView().findViewById(R.id.tv_profAvailable);
+//        tv_profAvailable = getView().findViewById(R.id.tv_profAvailable);
         tv_profPoints = getView().findViewById(R.id.tv_profPoints);
 
         btn_capDetails = getView().findViewById(R.id.btn_capDetails);
         btn_profCar = getView().findViewById(R.id.btn_profCar);
 
-        sw_available = getView().findViewById(R.id.sw_avaliable);
+//        sw_available = getView().findViewById(R.id.sw_avaliable);
         Log.d("daim",getArguments().getString("id")+"in fragment activity");
         id = getArguments().getString("id");
         first =getArguments().getString("first");
@@ -130,7 +130,7 @@ public class fragment_profile extends Fragment{
         number = getArguments().getString("number");
         points = getArguments().getInt("points");
         isCaptain = getArguments().getBoolean("isCaptain");
-        isAvailable=getArguments().getBoolean("isAvailable");
+//        isAvailable=getArguments().getBoolean("isAvailable");
 //        db=FirebaseFirestore.getInstance();
 //        DocumentReference docRef = db.collection("users").document(id);
 //
@@ -170,17 +170,17 @@ public class fragment_profile extends Fragment{
 
         if (isCaptain == true){
             btn_profCar.setVisibility(View.GONE);
-            sw_available.setVisibility(View.GONE);
+//            sw_available.setVisibility(View.GONE);
             btn_capDetails.setVisibility(View.VISIBLE);
-            sw_available.setVisibility(View.VISIBLE);
-            tv_profAvailable.setVisibility(View.VISIBLE);
-            tv_dispPoints.setVisibility(View.VISIBLE);
+//            sw_available.setVisibility(View.GONE);
+//            tv_profAvailable.setVisibility(View.VISIBLE);
+            tv_dispPoints.setVisibility(View.GONE);
             tv_profPoints.setVisibility(View.VISIBLE);
         }else{
             btn_profCar.setVisibility(View.VISIBLE);
             btn_capDetails.setVisibility(View.GONE);
-            sw_available.setVisibility(View.GONE);
-            tv_profAvailable.setVisibility(View.GONE);
+//            sw_available.setVisibility(View.GONE);
+//            tv_profAvailable.setVisibility(View.GONE);
             tv_dispPoints.setVisibility(View.GONE);
             tv_profPoints.setVisibility(View.GONE);
         }
@@ -203,31 +203,31 @@ public class fragment_profile extends Fragment{
             }
         });
 
-        sw_available.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(), "Switch has been switched!", Toast.LENGTH_SHORT).show();
-
-                String documentId = id;
-                String collectionPath = "users";
-
-                DocumentReference docRef = FirebaseFirestore.getInstance()
-                        .collection(collectionPath)
-                        .document(documentId);
-
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("available", sw_available.isChecked());
-
-                docRef.update(updates)
-                        .addOnSuccessListener(aVoid -> {
-                            // Update successful
-                        })
-                        .addOnFailureListener(e -> {
-                            // Update failed
-                        });
-
-            }
-        });
+//        sw_available.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getActivity().getApplicationContext(), "Switch has been switched!", Toast.LENGTH_SHORT).show();
+//
+//                String documentId = id;
+//                String collectionPath = "users";
+//
+//                DocumentReference docRef = FirebaseFirestore.getInstance()
+//                        .collection(collectionPath)
+//                        .document(documentId);
+//
+//                Map<String, Object> updates = new HashMap<>();
+//                updates.put("available", sw_available.isChecked());
+//
+//                docRef.update(updates)
+//                        .addOnSuccessListener(aVoid -> {
+//                            // Update successful
+//                        })
+//                        .addOnFailureListener(e -> {
+//                            // Update failed
+//                        });
+//
+//            }
+//        });
 
 
 

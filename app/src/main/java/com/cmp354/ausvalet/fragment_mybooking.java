@@ -201,6 +201,7 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
                                                      isParked=true;
                                                      btn_loc.setVisibility(View.VISIBLE);
                                                      btn_clear.setVisibility(View.VISIBLE);
+                                                     tv_bk_stat.setText("Your captain has parked your car!");
 
 
                                                  }

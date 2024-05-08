@@ -144,36 +144,6 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
-            <TextView
-                android:id="@+id/tv_profAvailable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="Avaliability"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Switch
-                android:id="@+id/sw_avaliable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0"
-                android:backgroundTint="@color/red_200"
-                android:buttonTint="@color/red_200"
-                android:checked="true"
-                android:drawableTint="@color/red_200"
-                android:foregroundTint="@color/red_200"
-                android:textSize="16sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
-
             <Button
                 android:id="@+id/btn_profCar"
                 android:layout_width="wrap_content"

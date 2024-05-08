@@ -155,7 +155,7 @@ public class CaptainService extends Service {
                 .setTicker(tickerText)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .setContentIntent(pendingIntent)
+//                .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setChannelId("22")
                 .build();
