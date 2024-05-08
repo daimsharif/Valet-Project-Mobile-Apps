@@ -93,6 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 FMap map = documentSnapshot.toObject(FMap.class);
+                assert map != null;
                 drawMarker(map.getLat(),map.getLng());
 
             }

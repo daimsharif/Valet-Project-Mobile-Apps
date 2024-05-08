@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,7 +45,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
     Button btn_book;
     Button btn_cancel;
 
-    static String captainId,customerId;
+    String captainId,customerId;
 
     FirebaseFirestore db;
     @Override
@@ -165,7 +166,10 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                                                                 @Override
                                                                 public void onSuccess(Void unused) {
                                                                     Log.d("daim","captain is unavailable");
-
+                                                                    SharedPreferences sp=getSharedPreferences("annoying_ids",MODE_PRIVATE);
+                                                                    SharedPreferences.Editor editor = sp.edit();
+                                                                    editor.putString("captainId",captainId);
+                                                                    editor.apply();
                                                                 }
                                                             });
 

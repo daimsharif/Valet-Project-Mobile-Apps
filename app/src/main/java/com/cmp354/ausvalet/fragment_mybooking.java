@@ -1,6 +1,9 @@
 package com.cmp354.ausvalet;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -45,6 +48,8 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
     Request req;
     User customer;
     Boolean isParked=false;
+
+    String captainId;
 
     Car car;
 
@@ -97,6 +102,11 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(getActivity()!=null) {
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("annoying_ids", MODE_PRIVATE);
+            captainId = sharedPref.getString("captainId", "-1");
+        }
+
         tv_bk_info=view.findViewById(R.id.tv_bk_info);
         tv_bk_stat=view.findViewById(R.id.tv_bk_stat);
         tv_bk_title=view.findViewById(R.id.tv_bk_title);
@@ -208,7 +218,7 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
         }if(v.getId()==R.id.btn_loc){
             //TODO abdu display final car destination
             Intent i=new Intent(getActivity(),MapsActivity.class);
-            i.putExtra("captainId",BookCaptain.captainId);
+            i.putExtra("captainId",captainId);
             startActivity(i);
         }if(v.getId()==R.id.btn_clear){
             clearScreen();
@@ -220,7 +230,7 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
         db=FirebaseFirestore.getInstance();
 //        Log.d("daimtest",req.getCustomerId());
         db.collection("requests")
-                .whereEqualTo("captainId", BookCaptain.captainId)
+                .whereEqualTo("captainId", captainId)
 //                .whereEqualTo("customerId", req.getCustomerId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -272,7 +282,7 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
 
     private void updateStatus() {
         db.collection("requests")
-                .whereEqualTo("captainId", BookCaptain.captainId)//TODO change it to isCaptain
+                .whereEqualTo("captainId", captainId)//TODO change it to isCaptain
 //                .whereEqualTo("customerId", req.getCustomerId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

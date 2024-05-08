@@ -1,6 +1,7 @@
 package com.cmp354.ausvalet;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -205,6 +206,7 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
 
 
 
+
                             }
 
                         }
@@ -390,4 +392,53 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                     }
                 });
     }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        SharedPreferences sharedPref = getActivity().getSharedPreferences("sp_frag_cap", getContext().MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        // Save variables to SharedPreferences
+//        editor.putString("id", id);
+//        editor.putString("first", first);
+//        editor.putString("last", last);
+//        editor.putString("number", number);
+//        editor.putInt("points", points);
+//        editor.putBoolean("isCaptain", isCaptain);
+//        editor.putBoolean("isAvailable", isAvailable);
+//        editor.putBoolean("isDropped", isDropped);
+//        editor.putString("tv_info",tv_info.getText().toString());
+//        editor.putString("tv_requestNotice",tv_requestNotice.getText().toString());
+//        editor.putInt("tv_info_display",tv_info.getVisibility());
+//        editor.putInt("btn_accept_display",btn_accept.getVisibility());
+//        editor.putInt("btn_decline_display",btn_decline.getVisibility());
+//        editor.putInt("btn_continue_display",btn_continue.getVisibility());
+//
+//
+//        // Add other variables as needed
+//        editor.apply();
+//
+//    }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.d("daim","onresume is called");
+//        SharedPreferences sharedPref = getActivity().getSharedPreferences("sp_frag_cap", getContext().MODE_PRIVATE);
+//        // Load variables from SharedPreferences
+//        id = sharedPref.getString("id", "");
+//        first = sharedPref.getString("first", "");
+//        last = sharedPref.getString("last", "");
+//        number = sharedPref.getString("number", "");
+//        points = sharedPref.getInt("points", 0);
+//        isCaptain = sharedPref.getBoolean("isCaptain", false);
+//        isAvailable = sharedPref.getBoolean("isAvailable", false);
+////        isDropped = sharedPref.getBoolean("isDropped", false);
+////        tv_info.setText(sharedPref.getString("tv_info", ""));
+//        tv_requestNotice.setText(sharedPref.getString("tv_requestNotice", "-1"));
+//        tv_info.setVisibility(sharedPref.getInt("tv_info_display", 0));
+//        btn_accept.setVisibility(sharedPref.getInt("btn_accept_display", 0));
+//        btn_decline.setVisibility(sharedPref.getInt("btn_decline_display", 0));
+//        btn_continue.setVisibility(sharedPref.getInt("btn_continue_display", 0));
+//    }
 }
