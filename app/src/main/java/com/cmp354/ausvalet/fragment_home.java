@@ -190,10 +190,12 @@ public class fragment_home extends Fragment {
 
                             }
                             //TODO: Fix applicaiton context returning null when spam clicking home fragment button
-                            CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
-                                    getActivity().getApplicationContext(), names, ids, points);
+                            if(getActivity()!=null) {
+                                CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
+                                        getActivity(), names, ids, points);
 
-                            listView.setAdapter(customBaseAdapter);
+                                listView.setAdapter(customBaseAdapter);
+                            }
                         } else {
                             Log.d("HOME", "Error getting documents: ", task.getException());
                         }
