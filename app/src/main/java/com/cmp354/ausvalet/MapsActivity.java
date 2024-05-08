@@ -55,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
 
         Intent i = getIntent();
-        driver_id = i.getStringExtra("driver");
+        driver_id = i.getStringExtra("captainId");
 
         db = FirebaseFirestore.getInstance();
 

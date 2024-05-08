@@ -44,7 +44,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
     Button btn_book;
     Button btn_cancel;
 
-    String captainId,customerId;
+    static String captainId,customerId;
 
     FirebaseFirestore db;
     @Override
@@ -165,6 +165,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                                                                 @Override
                                                                 public void onSuccess(Void unused) {
                                                                     Log.d("daim","captain is unavailable");
+
                                                                 }
                                                             });
 

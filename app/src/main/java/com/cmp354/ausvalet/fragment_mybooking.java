@@ -208,7 +208,7 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
         }if(v.getId()==R.id.btn_loc){
             //TODO abdu display final car destination
             Intent i=new Intent(getActivity(),MapsActivity.class);
-            i.putExtra("captainId",req.getCaptainId());
+            i.putExtra("captainId",BookCaptain.captainId);
             startActivity(i);
         }if(v.getId()==R.id.btn_clear){
             clearScreen();
@@ -218,10 +218,10 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
 
     private void clearScreen() {
         db=FirebaseFirestore.getInstance();
-        Log.d("daimtest",req.getCustomerId());
+//        Log.d("daimtest",req.getCustomerId());
         db.collection("requests")
-                .whereEqualTo("captainId", req.getCaptainId())
-                .whereEqualTo("customerId", req.getCustomerId())
+                .whereEqualTo("captainId", BookCaptain.captainId)
+//                .whereEqualTo("customerId", req.getCustomerId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -272,8 +272,8 @@ public class fragment_mybooking extends Fragment implements View.OnClickListener
 
     private void updateStatus() {
         db.collection("requests")
-                .whereEqualTo("captainId", req.getCaptainId())//TODO change it to isCaptain
-                .whereEqualTo("customerId", req.getCustomerId())
+                .whereEqualTo("captainId", BookCaptain.captainId)//TODO change it to isCaptain
+//                .whereEqualTo("customerId", req.getCustomerId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
