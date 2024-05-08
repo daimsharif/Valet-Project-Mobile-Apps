@@ -7,18 +7,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -47,7 +49,7 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
     boolean isAvailable;
 
     //TODO: FOR DAIM, try to get the status for dropped
-    boolean isDropped = true;
+    boolean isDropped = false;
 
     static User customer;
     Request req;
@@ -209,6 +211,32 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                     }
                 });
 
+        db.collection("requests")
+                .whereEqualTo("captainId", id)
+//                .whereEqualTo("customerId",customer.getId())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                         @Override
+                                         public void onEvent(@Nullable QuerySnapshot value,
+                                                             @Nullable FirebaseFirestoreException e) {
+                                             if (e != null) {
+                                                 Log.w("daim", "Listen failed.", e);
+                                                 return;
+                                             }
+                                             for (QueryDocumentSnapshot doc : value) {
+
+                                                 Log.d("daim",doc.toString());
+                                                 if (doc.get("isDropped").equals(true)) {
+                                                     Log.d("daim","car dropped");
+                                                     isDropped=true;
+
+
+                                                 }
+                                             }
+
+                                         }
+                                     }
+                );
+
     }
 
     @Override
@@ -227,6 +255,8 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                 startActivity(i);
 
                 //TODO: Once
+            }else{
+                Toast.makeText(getActivity(),"Car is not at dropOff location",Toast.LENGTH_SHORT).show();
             }
 
 
@@ -293,6 +323,15 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                                                 btn_decline.setVisibility(View.GONE);
                                                 btn_continue.setVisibility(View.GONE);
 
+                                                DocumentReference ref=db.collection("users").document(id);
+                                                ref.update("available",true)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Log.d("daim","captain is available");
+                                                            }
+                                                        });
+
 
                                             }
                                         });
@@ -331,6 +370,14 @@ public class fragment_captain_home extends Fragment implements View.OnClickListe
                                                 btn_accept.setVisibility(View.GONE);
                                                 btn_decline.setVisibility(View.GONE);
                                                 btn_continue.setVisibility(View.GONE);
+                                                DocumentReference ref=db.collection("users").document(id);
+                                                ref.update("available",true)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Log.d("daim","captain is available");
+                                                            }
+                                                        });
 
 
                                             }

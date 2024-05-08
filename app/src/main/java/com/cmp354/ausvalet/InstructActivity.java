@@ -112,7 +112,36 @@ public class InstructActivity extends AppCompatActivity implements View.OnClickL
                                 public void onComplete(@NonNull Task<Void> task) {
                                     Log.d("Maps", "Location Updated to Firebase");
                                     fragment_captain_home.parked();
-                                    finish();
+                                    DocumentReference docRef = db.collection("users").document(id);
+                                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            User user = documentSnapshot.toObject(User.class);
+
+                                            Map<String, Object> updates = new HashMap<>();
+                                            updates.put("points", user.getPoints() + 1);
+
+                                            DocumentReference ref = db.collection("users").document(id);
+                                            ref.update(updates).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+
+                                                        }
+                                                    })
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Log.d("Points", "Points Updated to Firebase");
+                                                            MainActivity.points += 1;
+                                                            finish();
+                                                        }
+                                                    });
+
+
+
+
+                                        }
+                                    });
                                 }
                             });
 

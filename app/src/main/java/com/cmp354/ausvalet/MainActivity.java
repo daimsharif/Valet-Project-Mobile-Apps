@@ -33,7 +33,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
+    static Boolean canBook=true;
     static String id;
     static String first;
     static String last;
@@ -132,6 +132,16 @@ public class MainActivity extends AppCompatActivity {
 
                             f1.setArguments(b);
                             replaceFragment(f1);
+                            break;
+                        case R.id.frag_book:
+                            if(!isCaptain) {
+                                Fragment f2 = new fragment_mybooking();
+                                f2.setArguments(b);
+                                replaceFragment(f2);
+                            }else{
+                                Toast.makeText(MainActivity.this,"Captains cannot book",Toast.LENGTH_SHORT).show();
+                            }
+
                             break;
                         case R.id.frag_profile:
                             Fragment f3=new fragment_profile();

@@ -170,7 +170,7 @@ public class fragment_profile extends Fragment{
 
         if (isCaptain == true){
             btn_profCar.setVisibility(View.GONE);
-            sw_available.setChecked(isAvailable);
+            sw_available.setVisibility(View.GONE);
             btn_capDetails.setVisibility(View.VISIBLE);
             sw_available.setVisibility(View.VISIBLE);
             tv_profAvailable.setVisibility(View.VISIBLE);

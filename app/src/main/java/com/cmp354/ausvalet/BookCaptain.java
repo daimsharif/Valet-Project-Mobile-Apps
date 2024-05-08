@@ -107,6 +107,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
 
         if(v.getId()==R.id.btn_book){
+
             Toast.makeText(this, "Booking your Captain... Please Wait", Toast.LENGTH_SHORT).show();
             book();
         }
@@ -154,6 +155,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                                                     Intent i = new Intent(BookCaptain.this, CustomerService.class);
                                                     i.putExtra("customerId",customerId);
                                                     i.putExtra("captainId",captainId);
+                                                    MainActivity.canBook=false;
                                                     ContextCompat.startForegroundService(BookCaptain.this,i);
                                                     btn_book.setVisibility(View.GONE);
                                                     //make captain not available
@@ -207,6 +209,7 @@ public class BookCaptain extends AppCompatActivity implements View.OnClickListen
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 //TODO implement
+                                                MainActivity.canBook=true;
                                             }
                                         });
 

@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -101,45 +102,35 @@ public class CustomerService extends Service{
                                 Log.d("daim","request declined");
                                 createStatusNotification("Request Declined","The captain declined your booking.");
                                 //TODO hamdle declined
+                                MainActivity.canBook=true;
                                 stopForeground(true);
                                 stopSelf();
 
                             }else if(doc.get("status").equals("accepted")){
                                 Log.d("daim","request accepted");
                                 createStatusNotification("Request Accepted","The captain accepted your booking.");
+                                MainActivity.canBook=false;
                                 stopForeground(true);
                                 stopSelf();
                             }else if(doc.get("status").equals("cancelled")){
                                 Log.d("daim","request cancelled");
                                 createStatusNotification("Request cancelled","Request cancelled by the customer.");
+                                MainActivity.canBook=true;
+                                DocumentReference ref=db.collection("users").document(captainId);
+                                ref.update("available",true)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                Log.d("daim","captain is available");
+                                            }
+                                        });
                                 stopForeground(true);
                                 stopSelf();
 
                             }else if(doc.get("status").equals("parked")){
                                 Log.d("daim","Car is parked!");
                                 createStatusNotification("Car is parked","Your car is parked!");
-                                new CountDownTimer(2000, 1000) {
-                                    public void onFinish() {
-                                        //let 2sec finish
-                                    }
-
-                                    public void onTick(long millisUntilFinished) {
-                                        db.collection("requests").document(doc.getId())
-                                                .delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.d("daim", "request successfully deleted!");
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w("daim", "Error deleting request", e);
-                                                    }
-                                                });
-                                    }
-                                }.start();
+                                MainActivity.canBook=false;
                                 stopForeground(true);
                                 stopSelf();
                             }

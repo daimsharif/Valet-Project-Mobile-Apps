@@ -46,6 +46,9 @@ public class fragment_home extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ArrayList<String> names ;
+    ArrayList<String> ids ;
+    ArrayList<String> points;
 
     public fragment_home() {
         // Required empty public constructor
@@ -69,9 +72,7 @@ public class fragment_home extends Fragment {
         return fragment;
     }
 
-    ArrayList<String> names =  new ArrayList<>();
-    ArrayList<String> ids =  new ArrayList<>();
-    ArrayList<String> points =  new ArrayList<>();
+
 
     FirebaseFirestore db;
     ListView listView;
@@ -102,35 +103,16 @@ public class fragment_home extends Fragment {
 
         if(isCaptain == false){
             db.collection("users")
-                    .whereEqualTo("available", true)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    User user =   document.toObject(User.class);
-                                    Log.d("Test", "Beginning of Test");
-                                    Log.d("Test", "This is: " + user.getFirst() + " " + user.getLast());
-                                    Log.d("Test", user.getId());
-                                    Log.d("Test", user.getPoints() + "");
-                                    names.add(user.getFirst() + " " + user.getLast());
-                                    Log.d("Test", names.get(0));
-                                    ids.add(user.getId());
-                                    points.add(user.getPoints() + "");
-
-
+                    .whereEqualTo("captain",true)
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    displayItems();
                                 }
-                                //TODO: Fix applicaiton context returning null when spam clicking home fragment button
-                                CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
-                                        getActivity().getApplicationContext(), names, ids, points);
+                            });
 
-                                listView.setAdapter(customBaseAdapter);
-                            } else {
-                                Log.d("HOME", "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
+
+
         }
         else{
             listView.setVisibility(View.GONE);
@@ -169,15 +151,54 @@ public class fragment_home extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TODO: Transfer to detailed activity
-
-                Intent intent = new Intent(getActivity().getApplicationContext(), BookCaptain.class);
-                intent.putExtra("captainId", ids.get(i));
-                intent.putExtra("customerId", getArguments().getString("id"));
-                startActivity(intent);
+                if(MainActivity.canBook) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), BookCaptain.class);
+                    intent.putExtra("captainId", ids.get(i));
+                    intent.putExtra("customerId", getArguments().getString("id"));
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(),"Booking currently in progress...",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
+    public void displayItems() {
 
+        db.collection("users")
+                .whereEqualTo("available", true)
+                .whereEqualTo("captain", true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            names =  new ArrayList<>();
+                            ids =  new ArrayList<>();
+                            points =  new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                User user = document.toObject(User.class);
+                                Log.d("Test", "Beginning of Test");
+                                Log.d("Test", "This is: " + user.getFirst() + " " + user.getLast());
+                                Log.d("Test", user.getId());
+                                Log.d("Test", user.getPoints() + "");
+                                names.add(user.getFirst() + " " + user.getLast());
+                                Log.d("Test", names.get(0));
+                                ids.add(user.getId());
+                                points.add(user.getPoints() + "");
+
+
+                            }
+                            //TODO: Fix applicaiton context returning null when spam clicking home fragment button
+                            CustomBaseAdapter customBaseAdapter = new CustomBaseAdapter(
+                                    getActivity().getApplicationContext(), names, ids, points);
+
+                            listView.setAdapter(customBaseAdapter);
+                        } else {
+                            Log.d("HOME", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 
 }
